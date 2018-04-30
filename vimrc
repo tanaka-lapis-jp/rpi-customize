@@ -22,4 +22,8 @@ nnoremap <up> gk
 set backspace=indent,eol,start
 set showmatch
 source $VIMRUNTIME/macros/matchit.vim
+hi Comment ctermfg=cyan
+set pastetoggle=<F2>
+set mouse=a
+set ttymouse=xterm2
 
