@@ -49,6 +49,9 @@ NeoBundle 'scrooloose/nerdtree'
 " JSONファイルのダブルクォテーションを表示
 NeoBundle 'elzr/vim-json'
 
+"NeoBundle 'plasticboy/vim-markdown'
+"NeoBundle 'kannokanno/previm'
+"NeoBundle 'tyru/open-browser.vim'
 
 
 " vimのlua機能が使える時だけ以下のVimプラグインをインストールする
@@ -107,7 +110,7 @@ set history=5000 " 保存するコマンド履歴の数
 "set expandtab " タブ入力を複数の空白入力に置き換える
 set tabstop=2 " 画面上でタブ文字が占める幅
 set autoindent " 改行時に前の行のインデントを継続する
-set smartindent " 改行時に前の行の構文をチェックし次の行のインデントを増減する
+"set smartindent " 改行時に前の行の構文をチェックし次の行のインデントを増減する
 set shiftwidth=2 " smartindentで増減する幅
 
 "----------------------------------------------------------
@@ -173,7 +176,7 @@ if &term =~ "xterm"
 
     inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
 endif
-
+set t_BE=
 "----------------------------------------------------------
 " neocomplete・neosnippetの設定
 "----------------------------------------------------------
@@ -208,15 +211,18 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 " ファイルを開いた時に構文エラーチェックを実行する
 let g:syntastic_check_on_open = 1
-" 「:wq」で終了する時も構文エラーチェックする
-let g:syntastic_check_on_wq = 1
-
+" 「:wq」で終了する時に構文エラーチェックしない
+let g:syntastic_check_on_wq = 0
 " Javascript用. 構文エラーチェックにESLintを使用
 let g:syntastic_javascript_checkers=['eslint']
 " Javascript以外は構文エラーチェックをしない
 let g:syntastic_mode_map = { 'mode': 'passive',
-                           \ 'active_filetypes': ['javascript'],
-                           \ 'passive_filetypes': [] }
+                           \ 'active_filetypes': ['sh','html','ruby','javascript'],
+                           \ 'passive_filetypes': [''] }
+let g:syntastic_error_symbol = "\u26A0"
+let g:syntastic_warning_symbol = "\u26A0"
+"let g:syntastic_javascript_eslint_exec = '/home/ubuntu/.config/versions/node/v10.16.3/bin/eslint'
+"let g:syntastic_html_checkers = ['eslint']
 
 "----------------------------------------------------------
 " CtrlP
@@ -243,9 +249,21 @@ autocmd VimEnter * wincmd p
 "他のバッファをすべて閉じた時にNERDTreeが開いていたらNERDTreeも一緒に閉じる。
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
+" デフォルトでドットファイルを表示
+let NERDTreeShowHidden=1
+
 set list
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
-set clipboard=unnamedplus
+set clipboard&
+set clipboard^=unnamedplus
 
 let g:vim_json_syntax_conceal = 0
 
+" markdown
+"autocmd BufNewFile,BufRead *.md set filetype=markdown
+"let g:vim_markdown_conceal = 0
+"let g:vim_markdown_conceal_code_blocks = 0
+"let g:vim_markdown_folding_disabled = 1
+
+nnoremap <F2> :bel term ++close<CR>
+nnoremap <F3> :bel vert term ++close<CR>
